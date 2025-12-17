@@ -1,6 +1,8 @@
-﻿namespace SchoolManagement.Domain.Entities;
+﻿using SchoolManagement.Domain.Common;
 
-public class Teacher
+namespace SchoolManagement.Domain.Entities;
+
+public class Teacher : BaseEntity
 {
     public string FullName { get; private set; }
     private Teacher() { }
