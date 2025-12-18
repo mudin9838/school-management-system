@@ -1,3 +1,4 @@
+using SchoolManagement.Api.Middlewares;
 using SchoolManagement.Application;
 using SchoolManagement.Infrastructure;
 
@@ -19,5 +20,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.Run();

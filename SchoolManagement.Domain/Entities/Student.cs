@@ -1,4 +1,5 @@
 ﻿using SchoolManagement.Domain.Common;
+using SchoolManagement.Domain.Entities.Exceptions;
 
 namespace SchoolManagement.Domain.Entities;
 
@@ -9,7 +10,8 @@ public class Student : BaseEntity
     public string LastName { get; private set; }
     public string Email { get; private set; }
 
-    private Student() { } // For ORM
+    private Student() { }
+
     public Student(string firstName, string lastName, string email)
     {
         SetName(firstName, lastName);
@@ -19,22 +21,20 @@ public class Student : BaseEntity
     public void SetName(string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            throw new ArgumentException("First name is required");
+            throw new InvalidStudentNameException("first name");
 
         if (string.IsNullOrWhiteSpace(lastName))
-            throw new ArgumentException("Last name is required");
+            throw new InvalidStudentNameException("last name");
 
         FirstName = firstName;
         LastName = lastName;
     }
 
-
     public void SetEmail(string email)
     {
-        if (string.IsNullOrEmpty(email))
-        {
-            throw new ArgumentException("Email is required");
-        }
+        if (string.IsNullOrWhiteSpace(email))
+            throw new InvalidStudentEmailException();
+
         Email = email;
     }
 }
