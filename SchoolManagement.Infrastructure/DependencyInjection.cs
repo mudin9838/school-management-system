@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolManagement.Application.Interfaces;
+using SchoolManagement.Infrastructure.Identity;
 using SchoolManagement.Infrastructure.Persistence;
 using SchoolManagement.Infrastructure.Repositories;
 
@@ -18,7 +20,9 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IStudentRepository, StudentRepository>();
-
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<SchoolDbContext>()
+    .AddDefaultTokenProviders();
         return services;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Students.Commands.CreateStudent;
 using SchoolManagement.Application.Features.Students.Queries;
@@ -22,6 +23,7 @@ public class StudentsController : ControllerBase
         return Ok(await _mediator.Send(new GetAllStudentsQuery()));
     }
 
+    [Authorize(Roles = "Admin,Teacher")]
     [HttpPost]
     public async Task<IActionResult> Post(CreateStudentCommand command)
     {
