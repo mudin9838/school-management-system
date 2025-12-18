@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Application.Features.Students.Commands.CreateStudent;
 using SchoolManagement.Application.Features.Students.Queries;
 
 namespace SchoolManagement.Api.Controllers;
@@ -19,5 +20,12 @@ public class StudentsController : ControllerBase
     public async Task<IActionResult> Get()
     {
         return Ok(await _mediator.Send(new GetAllStudentsQuery()));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(CreateStudentCommand command)
+    {
+        var studentId = await _mediator.Send(command);
+        return CreatedAtAction(nameof(Get), new { id = studentId }, command);
     }
 }

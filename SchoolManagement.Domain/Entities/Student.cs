@@ -18,16 +18,16 @@ public class Student : BaseEntity
 
     public void SetName(string firstName, string lastName)
     {
-        if (string.IsNullOrEmpty(FirstName))
-        {
+        if (string.IsNullOrWhiteSpace(firstName))
             throw new ArgumentException("First name is required");
-        }
-        if (string.IsNullOrEmpty(LastName))
-        {
+
+        if (string.IsNullOrWhiteSpace(lastName))
             throw new ArgumentException("Last name is required");
-        }
-        FirstName = firstName; LastName = lastName;
+
+        FirstName = firstName;
+        LastName = lastName;
     }
+
 
     public void SetEmail(string email)
     {

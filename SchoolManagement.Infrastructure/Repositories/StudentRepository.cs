@@ -17,5 +17,12 @@ public class StudentRepository : IStudentRepository
     {
         return await _context.Students.ToListAsync();
     }
+
+    public async Task AddAsync(Student student)
+    {
+        _context.Students.Add(student);
+        await _context.SaveChangesAsync();
+    }
+
 }
 
