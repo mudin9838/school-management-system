@@ -1,0 +1,16 @@
+﻿using FluentValidation;
+
+namespace SchoolManagement.Application.Features.Enrollments.Commands.EnrollStudent;
+
+public class EnrollStudentCommandValidator
+    : AbstractValidator<EnrollStudentCommand>
+{
+    public EnrollStudentCommandValidator()
+    {
+        RuleFor(x => x.StudentId)
+            .NotEmpty();
+
+        RuleFor(x => x.ClassId)
+            .NotEmpty();
+    }
+}

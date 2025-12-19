@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Application.Interfaces;
 using SchoolManagement.Domain.Entities;
 
@@ -19,7 +20,8 @@ public class EnrollStudentCommandHandler : IRequestHandler<EnrollStudentCommand>
 
         if (existsingEnrollment)
         {
-            throw new InvalidOperationException("The student is already enrolled in the class.");
+            throw new BusinessRuleViolationException(
+       "Student is already enrolled in this class");
         }
         var enrollment = new Enrollment(request.StudentId, request.ClassId);//creates a new Enrollment object with the provided StudentId and ClassId and adds it to the _enrollmentRepository
         await _enrollmentRepository.AddAsync(enrollment);

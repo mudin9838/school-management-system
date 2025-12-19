@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Domain.Common;
+using System.Net;
 
 namespace SchoolManagement.Api.Middlewares;
 
@@ -35,6 +37,14 @@ public class ExceptionMiddleware
             await context.Response.WriteAsJsonAsync(new
             {
                 Message = ex.Message
+            });
+        }
+        catch (BusinessRuleViolationException ex)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                error = ex.Message
             });
         }
         catch (Exception)
