@@ -1,4 +1,5 @@
 ﻿using SchoolManagement.Domain.Common;
+using SchoolManagement.Domain.Entities.Exceptions;
 
 namespace SchoolManagement.Domain.Entities;
 
@@ -10,10 +11,11 @@ public class Enrollment : BaseEntity
     public Enrollment(Guid studentId, Guid classId)
     {
         if (studentId == Guid.Empty)
-            throw new ArgumentException("StudentId is required");
+            throw new InvalidStudentIdException();
 
         if (classId == Guid.Empty)
-            throw new ArgumentException("ClassId is required");
+            throw new InvalidClassIdException();
+
         StudentId = studentId;
         ClassId = classId;
     }

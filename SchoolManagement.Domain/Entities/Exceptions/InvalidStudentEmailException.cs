@@ -2,6 +2,9 @@
 
 namespace SchoolManagement.Domain.Entities.Exceptions;
 
+/// <summary>
+/// 
+/// </summary>
 public sealed class InvalidStudentEmailException : DomainException
 {
     public InvalidStudentEmailException()

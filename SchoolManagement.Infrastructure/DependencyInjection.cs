@@ -20,6 +20,7 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<SchoolDbContext>()
     .AddDefaultTokenProviders();
