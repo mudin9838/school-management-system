@@ -26,7 +26,7 @@ public class CreateTeacherCommandHandlerTests
 
         //In the Arrange section, it sets up the necessary variables for the test, including a fullName and email for a teacher, and configures the mockRepository to return a completed task when the AddAsync method is called with any Teacher object.
 
-        //In the Act section, it calls the Handle method of the _handler object with a new CreateTeacherCommand object containing the fullName and email variables, and assigns the result to the result variable.
+        //In the Act section, it calls the Handle method of the _handler object with a new CreateTeacherCommand object containing the fullName and email variables.
 
         //In the Assert section, it verifies that the AddAsync method of the mockRepository was called exactly once with any Teacher object.This ensures that the Handle method correctly adds a new teacher to the repository.The async keyword indicates that the method is asynchronous and can use await to wait for the completion of asynchronous operations.
 
@@ -38,7 +38,7 @@ public class CreateTeacherCommandHandlerTests
         var command = new CreateTeacherCommand(fullName, email);
 
         // Act
-        var result = await _handler.Handle(new CreateTeacherCommand(fullName, email), CancellationToken.None);
+        await _handler.Handle(new CreateTeacherCommand(fullName, email), CancellationToken.None);
 
         // Assert
 

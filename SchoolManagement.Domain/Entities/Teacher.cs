@@ -17,7 +17,7 @@ public class Teacher : BaseEntity
     public void SetName(string fullName)
     {
         if (string.IsNullOrWhiteSpace(fullName))
-            throw new InvalidStudentNameException("first name");
+            throw new InvalidNameException("first name");
 
         FullName = fullName;
     }

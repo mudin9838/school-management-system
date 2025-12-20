@@ -21,10 +21,10 @@ public class Student : BaseEntity
     public void SetName(string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            throw new InvalidStudentNameException("first name");
+            throw new InvalidNameException("first name");
 
         if (string.IsNullOrWhiteSpace(lastName))
-            throw new InvalidStudentNameException("last name");
+            throw new InvalidNameException("last name");
 
         FirstName = firstName;
         LastName = lastName;
