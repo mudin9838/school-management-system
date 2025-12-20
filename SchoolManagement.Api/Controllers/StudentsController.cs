@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Students.Commands.CreateStudent;
-using SchoolManagement.Application.Features.Students.Queries;
+using SchoolManagement.Application.Features.Students.Queries.GetStudents;
 
 namespace SchoolManagement.Api.Controllers;
 

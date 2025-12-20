@@ -5,7 +5,7 @@ namespace SchoolManagement.Domain.Entities.Exceptions;
 public sealed class InvalidStudentNameException : DomainException
 {
     public InvalidStudentNameException(string fieldName)
-        : base($"Student {fieldName} is required.")
+        : base($"{fieldName} is required.")
     {
     }
 }

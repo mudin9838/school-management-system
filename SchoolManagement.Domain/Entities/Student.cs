@@ -33,7 +33,7 @@ public class Student : BaseEntity
     public void SetEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
-            throw new InvalidStudentEmailException();
+            throw new InvalidEmailException();
 
         Email = email;
     }

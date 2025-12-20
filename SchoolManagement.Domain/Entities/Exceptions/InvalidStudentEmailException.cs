@@ -5,10 +5,10 @@ namespace SchoolManagement.Domain.Entities.Exceptions;
 /// <summary>
 /// 
 /// </summary>
-public sealed class InvalidStudentEmailException : DomainException
+public sealed class InvalidEmailException : DomainException
 {
-    public InvalidStudentEmailException()
-        : base("Student email is required.")
+    public InvalidEmailException()
+        : base("Email is required.")
     {
     }
 }
