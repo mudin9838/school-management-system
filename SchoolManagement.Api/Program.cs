@@ -9,7 +9,11 @@ using SchoolManagement.Infrastructure;
 using SchoolManagement.Infrastructure.Identity;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
 builder.Services.AddControllers();
 builder.Services.AddOpenApiDocument(options =>
 {

@@ -2,6 +2,7 @@
 using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Domain.Common;
 using System.Net;
+using System.Text.Json;
 
 namespace SchoolManagement.Api.Middlewares;
 
@@ -11,12 +12,13 @@ namespace SchoolManagement.Api.Middlewares;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next; // represents the next middleware in the pipeline.
+    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate next)
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
-
     public async Task Invoke(HttpContext context) //The Invoke method is the entry point of the middleware.
     {
         try
@@ -47,13 +49,19 @@ public class ExceptionMiddleware
                 error = ex.Message
             });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Unhandled exception occurred: {Message}", ex.Message);
+
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsJsonAsync(new
+            context.Response.ContentType = "application/json";
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
-                Message = "An unexpected error occurred"
-            });
+                message = "An unexpected error occurred",
+                detail = ex.Message,  // Add this for debugging
+                stackTrace = ex.StackTrace // Add this for debugging (remove in production)
+            }));
         }
     }
 }

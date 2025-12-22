@@ -14,4 +14,6 @@ public class SchoolDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Teacher> Teachers => Set<Teacher>();
     public DbSet<Class> Classes => Set<Class>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
 }
