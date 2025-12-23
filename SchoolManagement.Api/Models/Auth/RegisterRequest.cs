@@ -3,5 +3,5 @@
 public record RegisterRequest(
     string Email,
     string Password,
-    string Role
+    IReadOnlyList<string> Roles
 );

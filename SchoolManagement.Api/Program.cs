@@ -51,6 +51,12 @@ builder.Services.AddAuthentication(options =>
         )
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Admin"));
+});
+
 builder.Services.AddAuthorization();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

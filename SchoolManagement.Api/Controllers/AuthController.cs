@@ -31,23 +31,23 @@ public class AuthController : ControllerBase
     }
 
     // ---------------- REGISTER ----------------
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
-    {
-        var user = new ApplicationUser
-        {
-            UserName = request.Email,
-            Email = request.Email
-        };
+    //[HttpPost("register")]
+    //public async Task<IActionResult> Register(RegisterRequest request)
+    //{
+    //    var user = new ApplicationUser
+    //    {
+    //        UserName = request.Email,
+    //        Email = request.Email
+    //    };
 
-        var result = await _userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
+    //    var result = await _userManager.CreateAsync(user, request.Password);
+    //    if (!result.Succeeded)
+    //        return BadRequest(result.Errors);
 
-        await _userManager.AddToRoleAsync(user, request.Role);
+    //    await _userManager.AddToRoleAsync(user, request.Role);
 
-        return Ok("User registered successfully");
-    }
+    //    return Ok("User registered successfully");
+    //}
 
     // ---------------- LOGIN ----------------
     [HttpPost("login")]
@@ -158,4 +158,6 @@ public class AuthController : ControllerBase
 
         return NoContent();
     }
+
+
 }
