@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SchoolManagement.Application.Interfaces;
 using SchoolManagement.Application.Interfaces.Security;
 using SchoolManagement.Infrastructure.Identity;
@@ -14,11 +15,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+           IHostEnvironment environment)
     {
-        services.AddDbContext<SchoolDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection")));
+        if (!environment.IsEnvironment("Testing"))
+        {
+            services.AddDbContext<SchoolDbContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection")));
+        }
 
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();

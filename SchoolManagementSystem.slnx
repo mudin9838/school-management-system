@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="SchoolManagement.Api.IntegrationTests/SchoolManagement.Api.IntegrationTests.csproj" Id="1b88d63d-ade2-4805-bf1e-53f44ccd636d" />
   <Project Path="SchoolManagement.Api/SchoolManagement.Api.csproj" />
   <Project Path="SchoolManagement.Application.Tests/SchoolManagement.Application.Tests.csproj" Id="52536bcf-1af3-4ed5-aa34-1979a654dca9" />
   <Project Path="SchoolManagement.Application/SchoolManagement.Application.csproj" />

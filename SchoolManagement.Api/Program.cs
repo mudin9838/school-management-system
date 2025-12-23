@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using SchoolManagement.Api.Controllers;
 using SchoolManagement.Api.Middlewares;
 using SchoolManagement.Application;
 using SchoolManagement.Infrastructure;
@@ -14,7 +15,12 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
-builder.Services.AddControllers();
+builder.Services.AddRouting();
+
+builder.Services
+    .AddControllers()
+    .AddApplicationPart(typeof(AuthController).Assembly);
+
 builder.Services.AddOpenApiDocument(options =>
 {
     options.AddSecurity("Bearer", new NSwag.OpenApiSecurityScheme
@@ -28,7 +34,10 @@ builder.Services.AddOpenApiDocument(options =>
     options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
 });
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(
+    builder.Configuration,
+    builder.Environment);
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -69,9 +78,10 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUI();
 }
-
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.Run();
+public partial class Program { }

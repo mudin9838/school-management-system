@@ -14,6 +14,9 @@ namespace SchoolManagement.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
+
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly ILogger<AuthController> _logger;
@@ -22,32 +25,42 @@ public class AuthController : ControllerBase
         UserManager<ApplicationUser> userManager,
         IJwtTokenService jwtTokenService,
         IRefreshTokenRepository refreshTokenRepository,
-        ILogger<AuthController> logger)
+        ILogger<AuthController> logger,
+        RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _jwtTokenService = jwtTokenService;
         _refreshTokenRepository = refreshTokenRepository;
         _logger = logger;
+        _roleManager = roleManager;
     }
 
     // ---------------- REGISTER ----------------
-    //[HttpPost("register")]
-    //public async Task<IActionResult> Register(RegisterRequest request)
-    //{
-    //    var user = new ApplicationUser
-    //    {
-    //        UserName = request.Email,
-    //        Email = request.Email
-    //    };
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(SchoolManagement.Api.Models.Auth.RegisterRequest request)
+    {
+        if (request.Roles is null || request.Roles.Count == 0)
+            return BadRequest("At least one role must be selected.");
 
-    //    var result = await _userManager.CreateAsync(user, request.Password);
-    //    if (!result.Succeeded)
-    //        return BadRequest(result.Errors);
+        var existingUser = await _userManager.FindByEmailAsync(request.Email);
+        if (existingUser != null)
+            return BadRequest("User already exists.");
 
-    //    await _userManager.AddToRoleAsync(user, request.Role);
+        var user = new ApplicationUser
+        {
+            UserName = request.Email,
+            Email = request.Email
+        };
 
-    //    return Ok("User registered successfully");
-    //}
+        var createResult = await _userManager.CreateAsync(user, request.Password);
+        if (!createResult.Succeeded)
+            return BadRequest(createResult.Errors);
+
+
+        foreach (var role in request.Roles) { if (await _roleManager.RoleExistsAsync(role)) { await _userManager.AddToRoleAsync(user, role); } }
+
+        return Ok("User created successfully.");
+    }
 
     // ---------------- LOGIN ----------------
     [HttpPost("login")]
