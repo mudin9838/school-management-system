@@ -13,14 +13,20 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await loginApi(email, password);
-      login(res.data.accessToken);
-      navigate("/dashboard");
-    } catch (error) {
+      setError(null);
+  
+      const data = await loginApi(email, password);
+  
+      login(data.accessToken);   
+  
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error(err);
       setError("Invalid email or password.");
     }
   };
-
+  
+  
   return (
     <div>
       <h2>Login</h2>
