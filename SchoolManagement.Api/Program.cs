@@ -8,6 +8,7 @@ using SchoolManagement.Api.Middlewares;
 using SchoolManagement.Application;
 using SchoolManagement.Infrastructure;
 using SchoolManagement.Infrastructure.Identity;
+using System.Security.Claims;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -15,7 +16,14 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultCors", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
 builder.Services.AddRouting();
 
 builder.Services
@@ -58,7 +66,8 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(jwtSettings["Key"]!)
-        )
+        ),
+        RoleClaimType = ClaimTypes.Role
     };
 });
 builder.Services.AddAuthorization(options =>
@@ -79,18 +88,13 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseRouting();
-app.UseCors(policy =>
-{
-    policy
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-});
+app.UseCors("DefaultCors");
+
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.Run();
 public partial class Program { }

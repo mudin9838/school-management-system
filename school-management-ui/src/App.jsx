@@ -4,6 +4,8 @@ import Dashboard from './pages/Dashboard'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './auth/Login'
 import ProtectedRoute from './auth/ProtectedRoute'
+import AdminRoute from './auth/AdminRoute'
+import AdminUsers from './pages/AdminUsers'
 
 function App() {
   return (
@@ -17,6 +19,17 @@ function App() {
        <Dashboard />
      </ProtectedRoute>
    } />
+   <Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminRoute>
+        <AdminUsers />
+      </AdminRoute>
+    </ProtectedRoute>
+  }
+/>
+
 </Routes>
 </BrowserRouter>
   )

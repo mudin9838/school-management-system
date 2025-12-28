@@ -17,7 +17,11 @@ export default function Login() {
   
       const data = await loginApi(email, password);
   
-      login(data.accessToken);   
+      // 🔐 STORE TOKENS
+      localStorage.setItem("refreshToken", data.refreshToken);
+  
+      // store access token + roles via context
+      login(data.accessToken);
   
       navigate("/", { replace: true });
     } catch (err) {
